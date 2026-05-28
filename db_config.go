@@ -10,13 +10,9 @@ import (
 )
 
 func ConnectDB() (*mongo.Client, error) {
-	host := os.Getenv("DB_HOST")
-	user := os.Getenv("DB_USERNAME")
-	pass := os.Getenv("DB_PASSWORD")
-	port := os.Getenv("DB_PORT")
-	dbName := os.Getenv("NAME_DB")
 
-	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s/", user, pass, host, port)
+	uri := os.Getenv("MONGO_URL")
+	dbName := os.Getenv("NAME_DB")
 
 	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
