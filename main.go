@@ -31,7 +31,7 @@ func main() {
 	// only test
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, `{"status": "alive", "message": "API desde Railway!"}`)
+		fmt.Fprintf(w, `{"status": "alive", "message": "Holaaa desde aquí!"}`)
 	})
 
 	port := os.Getenv("PORT")
