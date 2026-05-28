@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net/http"
+	"os"
 
 	"github.com/joho/godotenv"
 )
@@ -24,4 +27,21 @@ func main() {
 	}()
 
 	log.Println("Application is running smoothly...")
+
+	// only test
+	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, `{"status": "alive", "message": "API desde Railway!"}`)
+	})
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Printf("Application is running smoothly on port %s...", port)
+
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		log.Fatalf("Server failed to start: %v", err)
+	}
 }
