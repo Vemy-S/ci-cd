@@ -1,0 +1,50 @@
+services:
+  mongo_db:
+    image: mongo:7.0
+    container_name: mongo_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
+    ports:
+      - "${DB_PORT}:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://${ROOT_USERNAME}:${ROOT_PASSWORD}@${DB_HOST_MONGO}:27017/
+      ME_CONFIG_BASICAUTH_ENABLED: true
+      ME_CONFIG_BASICAUTH_USERNAME: ${EXPRESS_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${EXPRESS_PASSWORD}
+    depends_on:
+      - mongo_db
+    networks:
+      - app-network
+
+  app:
+    build: .
+    container_name: app
+    ports:
+      - 8080
+    environment:
+      DB_HOST: ${DB_HOST_MONGO}
+      DB_USERNAME: ${ROOT_USERNAME}
+      DB_PASSWORD: ${ROOT_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+    depends_on:
+      - mongo_db
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+
+networks:
+  app-network:
+    driver: bridge

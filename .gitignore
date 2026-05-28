@@ -1,0 +1,15 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+
+/dist/
+/bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+.env
