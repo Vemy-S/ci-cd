@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
@@ -19,3 +19,11 @@ jobs:
 
       - run: go mod download
       - run: go test -v ./...
+
+      - name: Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deployment
+        run: railway up --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
