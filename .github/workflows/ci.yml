@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Monorepo Pipeline
 
 on:
   push:
@@ -9,7 +9,11 @@ on:
       - main
 
 jobs:
-  run-tests:
+  backend-pipeline:
+    defaults:
+      run:
+        working-directory: ./backend
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
