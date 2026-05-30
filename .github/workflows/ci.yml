@@ -10,11 +10,11 @@ on:
 
 jobs:
   backend-pipeline:
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
 
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v6
@@ -31,3 +31,14 @@ jobs:
         run: railway up --detach --service ci-cd
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  frontend-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm ci
+      - run: npm run build -- --configuration=production
