@@ -47,3 +47,11 @@ jobs:
 
       - run: npm ci
       - run: npm run build -- --configuration=production
+
+      - name: Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deployment
+        run: railway up --detach --service disciplined-quietude
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
