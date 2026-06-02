@@ -1,0 +1,25 @@
+name: Pipeline de Despliegue VM local (Prueba)
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  despliegue:
+    name: Compilar y Desplegar en Servidor
+    runs-on: vps-local
+
+    steps:
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Verificar el estado del entorno
+        run: |
+          echo "Despliegue"
+          echo "Usuario ejecutando: $(whoami)"
+          echo "Directorio actual: $(pwd)"
+
+      - name: Conexión con el motor de Docker
+        run: |
+          echo "Contenedores activos"
+          docker ps
