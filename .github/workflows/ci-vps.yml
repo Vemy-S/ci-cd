@@ -13,13 +13,8 @@ jobs:
       - name: Descargar el código del repositorio
         uses: actions/checkout@v4
 
-      - name: Verificar el estado del entorno
-        run: |
-          echo "Despliegue"
-          echo "Usuario ejecutando: $(whoami)"
-          echo "Directorio actual: $(pwd)"
+      - run: |
+          echo "MONGO_URL=${{ secrets.MONGO_URL }}" > .env
+          echo "NAME_DB"=${{ secrets.NAME_DB }} > .env
 
-      - name: Conexión con el motor de Docker
-        run: |
-          echo "Contenedores activos"
-          docker ps
+      - run: docker compose up -d --build
