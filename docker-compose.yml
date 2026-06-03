@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: my-flashcards-frontend:latest
+    ports:
+      - "80:80"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: my-flashcards-backend:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
